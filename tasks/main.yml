@@ -1,0 +1,61 @@
+---
+# tasks file for awx_k8s_install
+- name: Install openshift python package
+  pip:
+    name: openshift
+
+- name: Download AWX Operator
+  ansible.builtin.get_url:
+    url: "https://raw.githubusercontent.com/ansible/awx-operator/devel/deploy/awx-operator.yaml"
+    dest: "~/awx-operator.yaml"
+
+- name: Install AWX Operator
+  kubernetes.core.k8s:
+    namespace: default
+    state: present
+    src: "~/awx-operator.yaml"
+
+- name: Create Secret
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: awx-admin-password
+        namespace: default
+      stringData:
+        password: "{{ awx_password }}"
+
+- name: Create awx pods
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: awx.ansible.com/v1beta1
+      kind: AWX
+      metadata:
+        name: awx
+        namespace: default
+
+- name: Create Ingress
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: awx
+        namespace: default
+        annotations:
+          kubernetes.io/ingress.class: traefik
+      spec:
+        rules:
+        - http:
+            paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: awx-service
+                  port:
+                    number: 80

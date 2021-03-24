@@ -1,0 +1,3 @@
+---
+# defaults file for awx_k8s_install
+awx_password: "Passw0rd!"
