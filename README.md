@@ -8,8 +8,6 @@ Requirements
 
 A working k8s
 
-pip install openshift
-
 Role Variables
 --------------
 
