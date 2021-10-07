@@ -16,7 +16,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/ansible/awx-operator.git'
     dest: ~/awx-operator
-    version: "0.14.0"
+    version: "{{ awxoperater_version }}"
 
 - name: Make AWX-Operator
   make:
@@ -46,35 +46,35 @@
 #      stringData:
 #        password: "{{ awx_password }}"
 
-- name: Create awx pods
-  community.kubernetes.k8s:
-    state: present
-    definition:
-      apiVersion: awx.ansible.com/v1beta1
-      kind: AWX
-      metadata:
-        name: awx
-        namespace: "{{ namespace }}"
+#- name: Create awx pods
+#  community.kubernetes.k8s:
+#    state: present
+#    definition:
+#      apiVersion: awx.ansible.com/v1beta1
+#      kind: AWX
+#      metadata:
+#        name: awx
+#        namespace: "{{ namespace }}"
 
-- name: Create Ingress
-  community.kubernetes.k8s:
-    state: present
-    definition:
-      apiVersion: networking.k8s.io/v1
-      kind: Ingress
-      metadata:
-        name: awx
-        namespace: "{{ namespace }}"
-        annotations:
-          kubernetes.io/ingress.class: traefik
-      spec:
-        rules:
-        - http:
-            paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: awx-service
-                  port:
-                    number: 80
+#- name: Create Ingress
+#  community.kubernetes.k8s:
+#    state: present
+#    definition:
+#      apiVersion: networking.k8s.io/v1
+#      kind: Ingress
+#      metadata:
+#        name: awx
+#        namespace: "{{ namespace }}"
+#        annotations:
+#          kubernetes.io/ingress.class: traefik
+#      spec:
+#        rules:
+#        - http:
+#            paths:
+#            - path: /
+#              pathType: Prefix
+#              backend:
+#                service:
+#                  name: awx-service
+#                  port:
+#                    number: 80
