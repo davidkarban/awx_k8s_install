@@ -10,7 +10,7 @@
     name: openshift
 
 - name: Set NAMESPACE
-  shell: export NAMESPACE={{ namespace }}
+  shell: export NAMESPACE="{{ namespace }}"
 
 - name: Git checkout AWX-Operator
   ansible.builtin.git:
@@ -34,17 +34,17 @@
 #    state: present
 #    src: "~/awx-operator.yaml"
 
-- name: Create Secret
-  community.kubernetes.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: awx-admin-password
-        namespace: "{{ namespace }}"
-      stringData:
-        password: "{{ awx_password }}"
+#- name: Create Secret
+#  community.kubernetes.k8s:
+#    state: present
+#    definition:
+#      apiVersion: v1
+#      kind: Secret
+#      metadata:
+#        name: awx-admin-password
+#        namespace: "{{ namespace }}"
+#      stringData:
+#        password: "{{ awx_password }}"
 
 - name: Create awx pods
   community.kubernetes.k8s:
