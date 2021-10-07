@@ -1,5 +1,10 @@
 ---
 # tasks file for awx_k8s_install
+- name: Install make
+  ansible.builtin.package:
+    name: make
+    state: latest
+
 - name: Install openshift python package
   pip:
     name: openshift
