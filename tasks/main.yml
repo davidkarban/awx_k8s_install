@@ -21,6 +21,7 @@
 - name: Make AWX-Operator
   make:
     chdir: ~/awx-operator
+    target: deploy
 
 #- name: Download AWX Operator
 #  ansible.builtin.get_url:
