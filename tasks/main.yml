@@ -4,16 +4,29 @@
   pip:
     name: openshift
 
-- name: Download AWX Operator
-  ansible.builtin.get_url:
-    url: "https://raw.githubusercontent.com/ansible/awx-operator/devel/deploy/awx-operator.yaml"
-    dest: "~/awx-operator.yaml"
+- name: Set NAMESPACE
+  shell: export NAMESPACE={{ namespace }}
 
-- name: Install AWX Operator
-  community.kubernetes.k8s:
-    namespace: default
-    state: present
-    src: "~/awx-operator.yaml"
+- name: Git checkout AWX-Operator
+  ansible.builtin.git:
+    repo: 'https://github.com/ansible/awx-operator.git'
+    dest: ~/awx-operator
+    version: "0.14.0"
+
+- name: Make AWX-Operator
+  make:
+    chdir: ~/awx-operator
+
+#- name: Download AWX Operator
+#  ansible.builtin.get_url:
+#    url: "https://raw.githubusercontent.com/ansible/awx-operator/devel/deploy/awx-operator.yaml"
+#    dest: "~/awx-operator.yaml"
+
+#- name: Install AWX Operator
+#  community.kubernetes.k8s:
+#    namespace: default
+#    state: present
+#    src: "~/awx-operator.yaml"
 
 - name: Create Secret
   community.kubernetes.k8s:
@@ -23,7 +36,7 @@
       kind: Secret
       metadata:
         name: awx-admin-password
-        namespace: default
+        namespace: "{{ namespace }}"
       stringData:
         password: "{{ awx_password }}"
 
@@ -35,7 +48,7 @@
       kind: AWX
       metadata:
         name: awx
-        namespace: default
+        namespace: "{{ namespace }}"
 
 - name: Create Ingress
   community.kubernetes.k8s:
@@ -45,7 +58,7 @@
       kind: Ingress
       metadata:
         name: awx
-        namespace: default
+        namespace: "{{ namespace }}"
         annotations:
           kubernetes.io/ingress.class: traefik
       spec:
