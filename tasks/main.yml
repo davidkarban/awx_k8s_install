@@ -23,6 +23,21 @@
     chdir: ~/awx-operator
     target: deploy
 
+- name: Copy deploy template
+  ansible.builtin.template:
+    src: deploy.yml.j2
+    dest: ~/deploy.yml
+
+- name: Copy secret template
+  ansible.builtin.template:
+    src: secret.yml.j2
+    dest: ~/secret.yml
+
+- name: Copy ingress template
+  ansible.builtin.template:
+    src: ingress.yml.j2
+    dest: ~/ingress.yml
+
 #- name: Download AWX Operator
 #  ansible.builtin.get_url:
 #    url: "https://raw.githubusercontent.com/ansible/awx-operator/devel/deploy/awx-operator.yaml"
