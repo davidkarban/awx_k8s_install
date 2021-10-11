@@ -39,4 +39,4 @@
     dest: ~/ingress.yml
 
 - name: Config and run AWX
-  shell: kubectl apply -f namespace.yml -f secret.yml -f deploy.yml -f ingress.yml
+  shell: kubectl apply -f ~/namespace.yml -f ~/secret.yml -f ~/deploy.yml -f ~/ingress.yml
