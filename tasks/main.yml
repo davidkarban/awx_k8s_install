@@ -41,4 +41,4 @@
 
 - name: Config and run AWX
   ansible.builtin.shell: |
-    kubectl apply -f ~/namespace.yml -f ~/secret.yml -f ~/deploy.yml -f ~/ingress.yml
+    "kubectl apply -f ~/namespace.yml -f ~/secret.yml -f ~/deploy.yml -f ~/ingress.yml"
