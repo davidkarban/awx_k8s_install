@@ -21,7 +21,7 @@
     dest: run_kubectl_operator.sh
 
 - name: Install awx-operator
-  ansible.builtin.shell: run_kubectl_operator.sh
+  shell: kubectl apply -f ~/awx-operator/deploy/awx-operator.yaml
 
 - name: Copy deploy template
   ansible.builtin.template:
