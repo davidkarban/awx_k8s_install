@@ -15,9 +15,13 @@
     dest: ~/awx-operator
     version: "{{ awxoperater_version }}"
 
+- name: Copy kubectl scripts
+  ansible.builtin.copy:
+    src: files/run_kubectl_operator.sh
+    dest: run_kubectl_operator.sh
+
 - name: Install awx-operator
-  ansible.builtin.shell:
-    cmd: ls -al
+  ansible.builtin.shell: run_kubectl_operator.sh
 
 - name: Copy deploy template
   ansible.builtin.template:
