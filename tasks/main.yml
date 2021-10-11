@@ -48,7 +48,8 @@
   community.kubernetes.k8s:
     namespace: default
     state: present
-    src: "~/namespace.yml"
+    template:
+      path: "namespace.yml.j2"
 
 #- name: Download AWX Operator
 #  ansible.builtin.get_url:
