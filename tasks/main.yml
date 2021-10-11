@@ -15,11 +15,6 @@
     dest: ~/awx-operator
     version: "{{ awxoperater_version }}"
 
-- name: Copy kubectl scripts
-  ansible.builtin.copy:
-    src: files/run_kubectl_operator.sh
-    dest: run_kubectl_operator.sh
-
 - name: Install awx-operator
   shell: kubectl apply -f ~/awx-operator/deploy/awx-operator.yaml
 
@@ -43,6 +38,5 @@
     src: ingress.yml.j2
     dest: ~/ingress.yml
 
-#- name: Config and run AWX
-#  ansible.builtin.shell:
-#    cmd: kubectl apply -f namespace.yml -f secret.yml -f deploy.yml -f ingress.yml
+- name: Config and run AWX
+  shell: kubectl apply -f namespace.yml -f secret.yml -f deploy.yml -f ingress.yml
