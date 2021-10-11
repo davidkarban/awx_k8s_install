@@ -22,6 +22,12 @@
   make:
     chdir: ~/awx-operator
     target: deploy
+  when: awxoperater_version == 0.14.0
+
+- name: Copy deploy template
+  ansible.builtin.template:
+    src: namespace.yml.j2
+    dest: ~/namespace.yml
 
 - name: Copy deploy template
   ansible.builtin.template:
