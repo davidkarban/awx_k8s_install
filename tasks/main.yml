@@ -9,20 +9,15 @@
   pip:
     name: openshift
 
-- name: Set NAMESPACE
-  shell: export NAMESPACE="{{ namespace }}"
-
 - name: Git checkout AWX-Operator
   ansible.builtin.git:
     repo: 'https://github.com/ansible/awx-operator.git'
     dest: ~/awx-operator
     version: "{{ awxoperater_version }}"
 
-- name: Make AWX-Operator
-  make:
-    chdir: ~/awx-operator
-    target: deploy
-  when: awxoperater_version == "0.14.0"
+- name: Install awx-operator
+  ansible.builtin.shell: |
+    kubectl apply -f  ~/awx-operator/deploy/awx-operator.yaml
 
 - name: Copy deploy template
   ansible.builtin.template:
@@ -44,65 +39,6 @@
     src: ingress.yml.j2
     dest: ~/ingress.yml
 
-- name: Configure awx namespace
-  community.kubernetes.k8s:
-    namespace: default
-    state: present
-    template:
-      path: "namespace.yml.j2"
-
-#- name: Download AWX Operator
-#  ansible.builtin.get_url:
-#    url: "https://raw.githubusercontent.com/ansible/awx-operator/devel/deploy/awx-operator.yaml"
-#    dest: "~/awx-operator.yaml"
-
-#- name: Install AWX Operator
-#  community.kubernetes.k8s:
-#    namespace: default
-#    state: present
-#    src: "~/awx-operator.yaml"
-
-#- name: Create Secret
-#  community.kubernetes.k8s:
-#    state: present
-#    definition:
-#      apiVersion: v1
-#      kind: Secret
-#      metadata:
-#        name: awx-admin-password
-#        namespace: "{{ namespace }}"
-#      stringData:
-#        password: "{{ awx_password }}"
-
-#- name: Create awx pods
-#  community.kubernetes.k8s:
-#    state: present
-#    definition:
-#      apiVersion: awx.ansible.com/v1beta1
-#      kind: AWX
-#      metadata:
-#        name: awx
-#        namespace: "{{ namespace }}"
-
-#- name: Create Ingress
-#  community.kubernetes.k8s:
-#    state: present
-#    definition:
-#      apiVersion: networking.k8s.io/v1
-#      kind: Ingress
-#      metadata:
-#        name: awx
-#        namespace: "{{ namespace }}"
-#        annotations:
-#          kubernetes.io/ingress.class: traefik
-#      spec:
-#        rules:
-#        - http:
-#            paths:
-#            - path: /
-#              pathType: Prefix
-#              backend:
-#                service:
-#                  name: awx-service
-#                  port:
-#                    number: 80
+- name: Config and run AWX
+  ansible.builtin.shell: |
+    kubectl apply -f ~/namespace.yml -f ~/secret.yml -f ~/deploy.yml -f ~/ingress.yml
