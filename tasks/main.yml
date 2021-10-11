@@ -17,9 +17,7 @@
 
 - name: Install awx-operator
   ansible.builtin.shell:
-    cmd: kubectl apply -f awx-operator.yaml
-    args:
-      chdir: ~/awx-operator/deploy/
+    cmd: kubectl apply -f ~/awx-operator/deploy/awx-operator.yaml
 
 - name: Copy deploy template
   ansible.builtin.template:
@@ -43,5 +41,5 @@
 
 - name: Config and run AWX
   ansible.builtin.shell:
-    cmd: kubectl apply -f namespace.yml -f secret.yml
+    cmd: kubectl apply -f namespace.yml -f secret.yml -f deploy.yml -f ingress.yml
 
