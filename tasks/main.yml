@@ -16,7 +16,8 @@
     version: "{{ awxoperater_version }}"
 
 - name: Install awx-operator
-  ansible.builtin.shell: kubectl apply -f awx-operator.yaml
+  ansible.builtin.shell: | 
+      kubectl apply -f awx-operator.yaml
   args:
     chdir: ~/awx-operator/deploy/
 
