@@ -2,4 +2,4 @@
 # defaults file for awx_k8s_install
 awx_password: "Passw0rd!"
 namespace: "awx"
-awxoperater_version: "0.8.0"
+awxoperater_version: "0.10.0"

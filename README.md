@@ -11,7 +11,9 @@ A working k8s
 Role Variables
 --------------
 
-awx_password: <default = Passw0rd!>
+awx_password: default = Passw0rd!
+namespace: default = "awx"
+awxoperater_version: default = "0.10.0"
 
 Dependencies
 ------------
