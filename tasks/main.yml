@@ -42,5 +42,6 @@
     dest: ~/ingress.yml
 
 - name: Config and run AWX
-  ansible.builtin.shell: kubectl apply -f namespace.yml
+  ansible.builtin.shell:
+    cmd: kubectl apply -f namespace.yml -f secret.yml
 
