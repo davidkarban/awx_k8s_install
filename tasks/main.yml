@@ -15,16 +15,9 @@
     dest: ~/awx-operator
     version: "{{ awxoperater_version }}"
 
-- name: Create awx namespace
-  kubernetes.core.k8s:
-    name: awx
-    api_version: v1
-    kind: Namespace
-    state: present
-
-#- name: Install awx-operator
-#  ansible.builtin.shell:
-#    cmd: kubectl apply -f ~/awx-operator/deploy/awx-operator.yaml
+- name: Install awx-operator
+  ansible.builtin.shell:
+    cmd: ls -al
 
 - name: Copy deploy template
   ansible.builtin.template:
