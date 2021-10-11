@@ -16,8 +16,7 @@
     version: "{{ awxoperater_version }}"
 
 - name: Install awx-operator
-  ansible.builtin.shell:
-    cmd: ls -al
+  ansible.builtin.shell: ls -al
 
 - name: Copy deploy template
   ansible.builtin.template:
