@@ -5,9 +5,9 @@
     name: make
     state: latest
 
-- name: Install openshift python package
-  pip:
-    name: openshift
+#- name: Install openshift python package
+#  pip:
+#    name: openshift
 
 - name: Git checkout AWX-Operator
   ansible.builtin.git:
