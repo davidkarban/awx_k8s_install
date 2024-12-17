@@ -4,9 +4,8 @@ kind: Ingress
 metadata:
   name: awx
   namespace: {{ namespace }}
-  annotations:
-    kubernetes.io/ingress.class: traefik
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
